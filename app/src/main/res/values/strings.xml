@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">sigue-med</string>
+    <string name="titulo_app">💊 Sigue-med</string>
+    <string name="subtitulo">Nunca olvides tu medicación</string>
+    <string name="boton_entrar">Entrar</string>
+    <string name="menu_principal">Menú principal</string>
+    <!--registrar medicamento-->
+    <string name="registrar_medicamento">Registrar medicamento</string>
+    <string name="descripcion_registrar">Añade un nuevo tratamiento</string>
+    <string name="nuevo_medicamento">💊 Nuevo medicamento</string>
+    <string name="nombre_medicamento">Nombre del Medicamento:</string>
+    <string name="hint_nombre">Ejemplo: Paracetamol</string>
+    <string name="dosis_medicamento">Dosis</string>
+
+
+    <string name="mis_medicamentos">Mis medicamentos</string>
+    <string name="recordatorios">Recordatorios</string>
+    <string name="historial">Historial</string>
+    <string name="configuracion">Configuración</string>
+
+</resources>

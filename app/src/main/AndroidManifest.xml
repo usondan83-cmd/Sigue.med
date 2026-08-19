@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- ================================================= -->
+    <!-- PERMISOS -->
+    <!-- ================================================= -->
+
+
+    <!-- Android 13 o superior -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Android 12 o superior: alarmas exactas -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+    <uses-permission
+        android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+        <!-- ================================================= -->
+    <!-- APLICACIÓN -->
+    <!-- ================================================= -->
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Siguemed">
+
+        <!-- ============================================= -->
+        <!-- PANTALLA PRINCIPAL -->
+        <!-- ============================================= -->
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ============================================= -->
+        <!-- MENÚ PRINCIPAL -->
+        <!-- ============================================= -->
+
+        <activity android:name=".MenuPrincipalActivity" />
+
+        <!-- ============================================= -->
+        <!-- REGISTRO DE MEDICAMENTOS -->
+        <!-- ============================================= -->
+
+        <activity android:name=".RegistroMedicamentoActivity" />
+
+        <!-- ============================================= -->
+        <!-- LISTADO DE MEDICAMENTOS -->
+        <!-- ============================================= -->
+
+        <activity android:name=".ListadoMedicamentosActivity" />
+
+        <!-- ============================================= -->
+        <!-- TOMAS -->
+        <!-- ============================================= -->
+
+        <activity android:name=".TomasActivity" />
+
+        <!-- ============================================= -->
+        <!-- RECEPTOR DE ALARMAS -->
+        <!-- ============================================= -->
+
+        <receiver
+            android:name=".ReceptorAlarma"
+            android:exported="false" />
+
+        <activity
+            android:name=".AlarmasActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- ============================================= -->
+        <!-- RECEIVER PARA ACCIONES DE LAS TOMAS          -->
+        <!-- ============================================= -->
+
+        <receiver
+            android:name=".AccionTomaReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".ReinicioReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
