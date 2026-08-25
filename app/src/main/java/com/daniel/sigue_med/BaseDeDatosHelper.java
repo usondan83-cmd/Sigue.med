@@ -41,7 +41,25 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
         );
     }
 
+// =====================================================
+// CONFIGURAR BASE DE DATOS
+// =====================================================
 
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+
+        super.onConfigure(db);
+
+        // Activamos las claves foráneas.
+        //
+        // Sin esto, SQLite ignora la relación
+        // FOREIGN KEY (idMedicamento) REFERENCES medicamentos(id)
+        // de la tabla "tomas", y sería posible tener
+        // tomas huérfanas apuntando a un medicamento
+        // que ya no existe.
+
+        db.setForeignKeyConstraintsEnabled(true);
+    }
     // =====================================================
     // CREAR BASE DE DATOS
     // =====================================================
