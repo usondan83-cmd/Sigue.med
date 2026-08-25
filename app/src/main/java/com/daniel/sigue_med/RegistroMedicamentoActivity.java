@@ -1062,7 +1062,7 @@ public class RegistroMedicamentoActivity
 
                                 fechaHora,
 
-                                "PENDIENTE"
+                                EstadoToma.PENDIENTE
                         );
 
 

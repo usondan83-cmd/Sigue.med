@@ -324,7 +324,7 @@ public class MenuPrincipalActivity
 
                             proximaToma.getId(),
 
-                            "TOMADA"
+                            EstadoToma.TOMADA
                     );
 
 

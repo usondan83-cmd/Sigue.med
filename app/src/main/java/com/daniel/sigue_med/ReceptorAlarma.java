@@ -124,7 +124,7 @@ public class ReceptorAlarma extends BroadcastReceiver {
 
         intentTomada.putExtra(
                 "accion",
-                "TOMADA"
+                EstadoToma.TOMADA
         );
 
 

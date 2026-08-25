@@ -235,7 +235,7 @@ public class TomasActivity extends AppCompatActivity {
 
                                 fechaHora,
 
-                                "PENDIENTE"
+                                EstadoToma.PENDIENTE
                         );
 
 
@@ -383,7 +383,7 @@ public class TomasActivity extends AppCompatActivity {
              */
 
             if (
-                    "PENDIENTE".equals(
+                    EstadoToma.PENDIENTE.equals(
                             toma.getEstado()
                     )
             ) {
@@ -411,7 +411,7 @@ public class TomasActivity extends AppCompatActivity {
 
 
                 botonTomada.setText(
-                        "TOMADA"
+                        EstadoToma.TOMADA
                 );
 
 
@@ -429,7 +429,7 @@ public class TomasActivity extends AppCompatActivity {
 
                                     toma.getId(),
 
-                                    "TOMADA"
+                                    EstadoToma.TOMADA
                             );
 
 
@@ -451,7 +451,7 @@ public class TomasActivity extends AppCompatActivity {
 
 
                 botonOmitida.setText(
-                        "OMITIDA"
+                        EstadoToma.OMITIDA
                 );
 
 
@@ -469,7 +469,7 @@ public class TomasActivity extends AppCompatActivity {
 
                                     toma.getId(),
 
-                                    "OMITIDA"
+                                    EstadoToma.OMITIDA
                             );
 
 
@@ -568,26 +568,26 @@ public class TomasActivity extends AppCompatActivity {
 
 
         if (
-                "TOMADA".equals(
+                EstadoToma.TOMADA.equals(
                         estado
                 )
         ) {
 
-            return "TOMADA";
+            return EstadoToma.TOMADA;
         }
 
 
         if (
-                "OMITIDA".equals(
+                EstadoToma.OMITIDA.equals(
                         estado
                 )
         ) {
 
-            return "OMITIDA";
+            return EstadoToma.OMITIDA;
         }
 
 
-        return "PENDIENTE";
+        return EstadoToma.PENDIENTE;
     }
 
 
@@ -600,7 +600,7 @@ public class TomasActivity extends AppCompatActivity {
 
 
         if (
-                "TOMADA".equals(
+                EstadoToma.TOMADA.equals(
                         estado
                 )
         ) {
@@ -610,7 +610,7 @@ public class TomasActivity extends AppCompatActivity {
 
 
         if (
-                "OMITIDA".equals(
+                EstadoToma.OMITIDA.equals(
                         estado
                 )
         ) {

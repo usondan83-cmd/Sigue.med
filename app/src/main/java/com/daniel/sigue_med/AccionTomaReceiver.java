@@ -57,8 +57,8 @@ public class AccionTomaReceiver
 
         String nuevoEstado =
                 "OMITIR".equals(accion)
-                        ? "OMITIDA"
-                        : "TOMADA";
+                        ? EstadoToma.OMITIDA
+                        : EstadoToma.TOMADA;
 
         // ACTUALIZAR ESTADO DE LA TOMA
 

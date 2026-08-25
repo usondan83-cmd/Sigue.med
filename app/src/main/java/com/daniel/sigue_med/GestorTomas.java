@@ -517,7 +517,7 @@ public class GestorTomas {
                             "ORDER BY fechaHora ASC",
 
                     new String[]{
-                            "PENDIENTE"
+                            EstadoToma.PENDIENTE
                     }
             );
 
