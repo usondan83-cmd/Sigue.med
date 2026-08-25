@@ -6,17 +6,13 @@ import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,30 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         NotificacionToma.crearCanal(this);
 
-        NotificacionToma.crearCanal(this);
-
-// =================================================
-// SOLICITAR PERMISO DE NOTIFICACIONES
-// =================================================
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED) {
-
-                ActivityCompat.requestPermissions(
-                        this,
-                        new String[]{
-                                Manifest.permission.POST_NOTIFICATIONS
-                        },
-                        100
-                );
-            }
-        }
-
-
         // =================================================
         // SOLICITAR PERMISO DE NOTIFICACIONES
         // =================================================
@@ -74,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
          * permiso para poder mostrar notificaciones.
          */
 
-        if (android.os.Build.VERSION.SDK_INT >=
-                android.os.Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 
             if (ContextCompat.checkSelfPermission(
                     this,
@@ -96,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
         botonEntrar = findViewById(R.id.botonEntrar);
 
-
-
         // BOTÓN ENTRAR
 
         botonEntrar.setOnClickListener(
@@ -116,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+
     }
 
 
