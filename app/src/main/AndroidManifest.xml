@@ -77,6 +77,10 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
+        <receiver
+            android:name=".RecordatorioComprobacionReceiver"
+            android:exported="false" />
+
         <!-- ============================================= -->
         <!-- RECEIVER PARA ACCIONES DE LAS TOMAS          -->
         <!-- ============================================= -->

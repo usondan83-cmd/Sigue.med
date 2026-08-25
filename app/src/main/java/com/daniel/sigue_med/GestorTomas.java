@@ -459,9 +459,11 @@ public class GestorTomas {
 
         db.close();
     }
+
+
     // =====================================================
-// OBTENER TODAS LAS TOMAS PENDIENTES
-// =====================================================
+    // OBTENER TODAS LAS TOMAS PENDIENTES
+    // =====================================================
 
     public static ArrayList<Toma> obtenerTomasPendientes(
             Context context) {
@@ -628,11 +630,61 @@ public class GestorTomas {
         }
 
 
-
         // DEVOLVER RESULTADOS
-
 
         return lista;
     }
-}
 
+
+    // =====================================================
+    // OBTENER ESTADO DE UNA TOMA POR MEDICAMENTO Y FECHA/HORA
+    // =====================================================
+
+    public static String obtenerEstadoPorMedicamentoYFechaHora(
+            Context context,
+            int idMedicamento,
+            String fechaHora) {
+
+        BaseDeDatosHelper helper =
+                new BaseDeDatosHelper(context);
+
+        SQLiteDatabase db =
+                helper.getReadableDatabase();
+
+        Cursor cursor = null;
+
+        String estado = null;
+
+        try {
+
+            cursor = db.rawQuery(
+
+                    "SELECT estado FROM tomas " +
+                            "WHERE idMedicamento = ? " +
+                            "AND fechaHora = ?",
+
+                    new String[]{
+                            String.valueOf(idMedicamento),
+                            fechaHora
+                    }
+            );
+
+            if (cursor.moveToFirst()) {
+
+                estado = cursor.getString(
+                        cursor.getColumnIndexOrThrow("estado")
+                );
+            }
+
+        } finally {
+
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            db.close();
+        }
+
+        return estado;
+    }
+}
