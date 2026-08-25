@@ -33,6 +33,12 @@ public class AccionTomaReceiver
                         "fechaHora"
                 );
 
+        // OBTENER ACCIÓN (TOMADA U OMITIR)
+
+        String accion = intent.getStringExtra(
+                "accion"
+        );
+
         // COMPROBAR ID DEL MEDICAMENTO
 
         if (idMedicamento == -1) {
@@ -47,29 +53,33 @@ public class AccionTomaReceiver
             return;
         }
 
+        // DETERMINAR NUEVO ESTADO SEGÚN LA ACCIÓN
+
+        String nuevoEstado =
+                "OMITIR".equals(accion)
+                        ? "OMITIDA"
+                        : "TOMADA";
+
         // ACTUALIZAR ESTADO DE LA TOMA
 
         GestorTomas.actualizarEstadoPorMedicamentoYFechaHora(
+                context,
+                idMedicamento,
+                fechaHora,
+                nuevoEstado
+        );
 
-                        context,
+// MENSAJE
 
-                        idMedicamento,
-
-                        fechaHora,
-
-                        "TOMADA"
-                );
-
-        // MENSAJE
+        String mensaje =
+                "OMITIR".equals(accion)
+                        ? "Toma marcada como omitida"
+                        : "Toma marcada como realizada";
 
         Toast.makeText(
-
                 context,
-
-                "Toma marcada como realizada",
-
+                mensaje,
                 Toast.LENGTH_SHORT
-
         ).show();
     }
 }

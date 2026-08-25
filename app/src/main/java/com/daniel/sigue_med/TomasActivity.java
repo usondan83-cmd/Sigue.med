@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class TomasActivity extends AppCompatActivity {
@@ -24,6 +25,8 @@ public class TomasActivity extends AppCompatActivity {
     // Botón para volver
     private Button botonVolver;
 
+    private static final DateTimeFormatter FORMATO_FECHA_HORA =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     // =====================================================
     // ON CREATE
@@ -201,14 +204,7 @@ public class TomasActivity extends AppCompatActivity {
             // CONVERTIR FECHA Y HORA A TEXTO
             // -------------------------------------------------
 
-            String fechaHora =
-                    tomaCalculada
-                            .toString()
-                            .replace(
-                                    "T",
-                                    " "
-                            );
-
+            String fechaHora = tomaCalculada.format(FORMATO_FECHA_HORA);
 
             // -------------------------------------------------
             // COMPROBAR SI YA EXISTE
