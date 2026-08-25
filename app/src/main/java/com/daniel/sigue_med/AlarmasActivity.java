@@ -246,10 +246,22 @@ public class AlarmasActivity extends AppCompatActivity {
 
                         // Programar alarmas
 
-                        GestorAlarmas.programarAlarmas(
-                                AlarmasActivity.this,
-                                medicamento
-                        );
+                        boolean alarmasProgramadas =
+                                GestorAlarmas.programarAlarmas(
+                                        AlarmasActivity.this,
+                                        medicamento
+                                );
+
+
+                        // Si no se pudo programar (falta permiso),
+                        // no hacemos nada más. El usuario ya fue
+                        // redirigido a Ajustes por
+                        // solicitarPermisoAlarmasExactas().
+
+                        if (!alarmasProgramadas) {
+
+                            return;
+                        }
 
 
                         // Cambiar estado
@@ -280,45 +292,6 @@ public class AlarmasActivity extends AppCompatActivity {
                         );
 
 
-                    } else {
-
-
-                        // =================================
-                        // DESACTIVAR ALARMA
-                        // =================================
-
-                        GestorAlarmas.cancelarAlarmas(
-                                AlarmasActivity.this,
-                                medicamento
-                        );
-
-
-                        // Cambiar estado
-
-                        medicamento.setAlarmaActiva(
-                                false
-                        );
-
-
-                        // Guardar en SQLite
-
-                        GestorMedicamentos
-                                .actualizarMedicamento(
-                                        AlarmasActivity.this,
-                                        medicamento
-                                );
-
-
-                        // Actualizar interfaz
-
-                        estado.setText(
-                                "🔕 Alarma desactivada"
-                        );
-
-
-                        botonAlarma.setText(
-                                "Activar alarma"
-                        );
                     }
                 }
         );

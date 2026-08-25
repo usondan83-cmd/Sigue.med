@@ -89,7 +89,7 @@ public class GestorAlarmas {
     // PROGRAMAR TODAS LAS ALARMAS DE UN MEDICAMENTO
     // =====================================================
 
-    public static void programarAlarmas(
+    public static Boolean programarAlarmas(
             Context context,
             Medicamento medicamento) {
 
@@ -100,12 +100,11 @@ public class GestorAlarmas {
 
         if (!puedeProgramarAlarmasExactas(context)) {
 
-
             // No tenemos permiso.
 
             solicitarPermisoAlarmasExactas(context);
 
-            return;
+            return false;
         }
 
 
@@ -295,6 +294,7 @@ public class GestorAlarmas {
                 );
             }
         }
+        return true;
     }
 
 
