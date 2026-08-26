@@ -1,7 +1,7 @@
 package com.daniel.sigue_med;
 
 import android.os.Bundle;
-import android.view.View;
+
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +16,14 @@ public class TomasActivity extends AppCompatActivity {
 
 
     // =====================================================
+    // FORMATO DE FECHA Y HORA
+    // =====================================================
+
+    private static final DateTimeFormatter FORMATO_FECHA_HORA =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+
+    // =====================================================
     // COMPONENTES
     // =====================================================
 
@@ -25,8 +33,6 @@ public class TomasActivity extends AppCompatActivity {
     // Botón para volver
     private Button botonVolver;
 
-    private static final DateTimeFormatter FORMATO_FECHA_HORA =
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     // =====================================================
     // ON CREATE
@@ -204,7 +210,11 @@ public class TomasActivity extends AppCompatActivity {
             // CONVERTIR FECHA Y HORA A TEXTO
             // -------------------------------------------------
 
-            String fechaHora = tomaCalculada.format(FORMATO_FECHA_HORA);
+            String fechaHora =
+                    tomaCalculada.format(
+                            FORMATO_FECHA_HORA
+                    );
+
 
             // -------------------------------------------------
             // COMPROBAR SI YA EXISTE
@@ -375,11 +385,7 @@ public class TomasActivity extends AppCompatActivity {
 
             /*
              * Solamente mostraremos los botones si la toma
-             * todavía está pendiente.
-             *
-             * Si ya está TOMADA u OMITIDA, no queremos que
-             * el usuario pueda cambiar accidentalmente
-             * el estado.
+             * todavía está pendiente Y si ya ha llegado su hora.
              */
 
             if (
@@ -389,120 +395,163 @@ public class TomasActivity extends AppCompatActivity {
             ) {
 
 
-                // =================================================
-                // CONTENEDOR DE BOTONES
-                // =================================================
-
-                LinearLayout botones =
-                        new LinearLayout(this);
+                if (haLlegadoLaHora(toma.getFechaHora())) {
 
 
-                botones.setOrientation(
-                        LinearLayout.HORIZONTAL
-                );
+                    // =============================================
+                    // YA LLEGÓ LA HORA: MOSTRAR BOTONES
+                    // =============================================
+
+                    // =================================================
+                    // CONTENEDOR DE BOTONES
+                    // =================================================
+
+                    LinearLayout botones =
+                            new LinearLayout(this);
 
 
-                // =================================================
-                // BOTÓN TOMADA
-                // =================================================
-
-                Button botonTomada =
-                        new Button(this);
+                    botones.setOrientation(
+                            LinearLayout.HORIZONTAL
+                    );
 
 
-                botonTomada.setText(
-                        EstadoToma.TOMADA
-                );
+                    // =================================================
+                    // BOTÓN TOMADA
+                    // =================================================
+
+                    Button botonTomada =
+                            new Button(this);
 
 
-                botonTomada.setOnClickListener(
-                        view -> {
+                    botonTomada.setText(
+                            EstadoToma.TOMADA
+                    );
 
 
-                            // -----------------------------------------
-                            // ACTUALIZAR ESTADO EN SQLITE
-                            // -----------------------------------------
-
-                            GestorTomas.actualizarEstado(
-
-                                    TomasActivity.this,
-
-                                    toma.getId(),
-
-                                    EstadoToma.TOMADA
-                            );
+                    botonTomada.setOnClickListener(
+                            view -> {
 
 
-                            // -----------------------------------------
-                            // RECARGAR PANTALLA
-                            // -----------------------------------------
+                                // -----------------------------------------
+                                // ACTUALIZAR ESTADO EN SQLITE
+                                // -----------------------------------------
 
-                            cargarTomas();
-                        }
-                );
+                                GestorTomas.actualizarEstado(
 
+                                        TomasActivity.this,
 
-                // =================================================
-                // BOTÓN OMITIDA
-                // =================================================
+                                        toma.getId(),
 
-                Button botonOmitida =
-                        new Button(this);
+                                        EstadoToma.TOMADA
+                                );
 
 
-                botonOmitida.setText(
-                        EstadoToma.OMITIDA
-                );
+                                // -----------------------------------------
+                                // RECARGAR PANTALLA
+                                // -----------------------------------------
+
+                                cargarTomas();
+                            }
+                    );
 
 
-                botonOmitida.setOnClickListener(
-                        view -> {
+                    // =================================================
+                    // BOTÓN OMITIDA
+                    // =================================================
+
+                    Button botonOmitida =
+                            new Button(this);
 
 
-                            // -----------------------------------------
-                            // ACTUALIZAR ESTADO EN SQLITE
-                            // -----------------------------------------
-
-                            GestorTomas.actualizarEstado(
-
-                                    TomasActivity.this,
-
-                                    toma.getId(),
-
-                                    EstadoToma.OMITIDA
-                            );
+                    botonOmitida.setText(
+                            EstadoToma.OMITIDA
+                    );
 
 
-                            // -----------------------------------------
-                            // RECARGAR PANTALLA
-                            // -----------------------------------------
-
-                            cargarTomas();
-                        }
-                );
+                    botonOmitida.setOnClickListener(
+                            view -> {
 
 
-                // =================================================
-                // AÑADIR BOTONES
-                // =================================================
+                                // -----------------------------------------
+                                // ACTUALIZAR ESTADO EN SQLITE
+                                // -----------------------------------------
 
-                botones.addView(
-                        botonTomada
-                );
+                                GestorTomas.actualizarEstado(
+
+                                        TomasActivity.this,
+
+                                        toma.getId(),
+
+                                        EstadoToma.OMITIDA
+                                );
 
 
-                botones.addView(
-                        botonOmitida
-                );
+                                // -----------------------------------------
+                                // RECARGAR PANTALLA
+                                // -----------------------------------------
+
+                                cargarTomas();
+                            }
+                    );
 
 
-                // =================================================
-                // AÑADIR BOTONES AL CONTENEDOR
-                // =================================================
+                    // =================================================
+                    // AÑADIR BOTONES
+                    // =================================================
 
-                contenedorToma.addView(
-                        botones
-                );
+                    botones.addView(
+                            botonTomada
+                    );
+
+
+                    botones.addView(
+                            botonOmitida
+                    );
+
+
+                    // =================================================
+                    // AÑADIR BOTONES AL CONTENEDOR
+                    // =================================================
+
+                    contenedorToma.addView(
+                            botones
+                    );
+
+
+                } else {
+
+
+                    // =============================================
+                    // TODAVÍA NO HA LLEGADO LA HORA
+                    // =============================================
+
+                    TextView mensajeEspera =
+                            new TextView(this);
+
+
+                    mensajeEspera.setText(
+                            "⏳ Disponible a partir de las "
+                                    + toma.getFechaHora()
+                    );
+
+
+                    mensajeEspera.setTextSize(
+                            17
+                    );
+
+
+                    mensajeEspera.setPadding(
+                            0,
+                            15,
+                            0,
+                            0
+                    );
+
+
+                    contenedorToma.addView(
+                            mensajeEspera
+                    );
+                }
 
 
             } else {
@@ -555,6 +604,34 @@ public class TomasActivity extends AppCompatActivity {
             contenedorTomas.addView(
                     contenedorToma
             );
+        }
+    }
+
+
+    // =====================================================
+    // COMPROBAR SI YA HA LLEGADO LA HORA DE LA TOMA
+    // =====================================================
+
+    private boolean haLlegadoLaHora(String fechaHora) {
+
+        try {
+
+            LocalDateTime fecha =
+                    LocalDateTime.parse(
+                            fechaHora,
+                            FORMATO_FECHA_HORA
+                    );
+
+            return !LocalDateTime.now().isBefore(fecha);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            // Por seguridad, si no podemos comprobar la hora,
+            // no permitimos marcar la toma.
+
+            return false;
         }
     }
 
