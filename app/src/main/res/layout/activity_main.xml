@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@drawable/fondo_degradado">
+
 
     <!-- en texto, usando @ se llama a un string guardado en string.xml -->
     <TextView
