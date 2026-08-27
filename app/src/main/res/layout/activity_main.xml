@@ -31,12 +31,16 @@
         android:text="@string/subtitulo"
         android:textSize="18sp"
         android:layout_marginTop="12dp"/>
-    
-    <Button
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/botonEntrar"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
-        android:id="@+id/botonEntrar"
-        android:text="@string/boton_entrar"/>
+        android:text="@string/boton_entrar"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#2E7D32"
+        app:cornerRadius="30dp"
+        app:rippleColor="#1B5E20" />
 
 </LinearLayout>
