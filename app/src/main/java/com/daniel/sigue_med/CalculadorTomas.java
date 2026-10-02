@@ -244,4 +244,84 @@ public class CalculadorTomas {
 
         return tomas;
     }
+
+
+    // =====================================================
+    // CALCULAR TOMAS DENTRO DE UNA VENTANA LIMITADA
+    // =====================================================
+
+    /*
+     * Versión con límite superior.
+     *
+     * En vez de devolver TODAS las tomas del tratamiento
+     * completo (lo cual puede ser miles de filas para
+     * tratamientos largos, provocando bloqueos al guardar
+     * en SQLite y al programar alarmas), esta versión
+     * corta la lista en cuanto se alcanza "limiteSuperior".
+     *
+     * Útil para:
+     *
+     * - RegistroMedicamentoActivity.crearTomas()
+     * - GestorAlarmas.programarAlarmas()
+     *
+     * Ejemplo de uso:
+     *
+     * LocalDateTime limite = LocalDateTime.now().plusDays(14);
+     *
+     * CalculadorTomas.calcularTomas(
+     *         fechaInicio, horaInicio, frecuencia,
+     *         diasTratamiento, limite
+     * );
+     */
+
+    public static ArrayList<LocalDateTime> calcularTomas(
+            String fechaInicio,
+            String horaInicio,
+            String frecuencia,
+            int diasTratamiento,
+            LocalDateTime limiteSuperior) {
+
+
+        // =================================================
+        // CALCULAR TODAS LAS TOMAS (MÉTODO EXISTENTE)
+        // =================================================
+
+        ArrayList<LocalDateTime> todas =
+                calcularTomas(
+                        fechaInicio,
+                        horaInicio,
+                        frecuencia,
+                        diasTratamiento
+                );
+
+
+        // =================================================
+        // CREAR LISTA LIMITADA
+        // =================================================
+
+        ArrayList<LocalDateTime> limitadas =
+                new ArrayList<>();
+
+
+        // =================================================
+        // RECORRER Y CORTAR AL LLEGAR AL LÍMITE
+        // =================================================
+
+        for (LocalDateTime toma : todas) {
+
+            if (toma.isAfter(limiteSuperior)) {
+
+                break;
+            }
+
+            limitadas.add(toma);
+        }
+
+
+        // =================================================
+        // DEVOLVER RESULTADO
+        // =================================================
+
+        return limitadas;
+    }
 }
