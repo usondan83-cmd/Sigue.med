@@ -15,6 +15,27 @@ public class GestorAlarmas {
 
 
     // =====================================================
+    // VENTANA DE PROGRAMACIÓN DE ALARMAS
+    // =====================================================
+
+    /*
+     * No programamos alarmas para el tratamiento completo
+     * (podrían ser miles para tratamientos largos, superando
+     * el límite de alarmas exactas que impone Android por
+     * aplicación).
+     *
+     * Solo programamos las de los próximos N días.
+     *
+     * Debe coincidir con DIAS_VENTANA_TOMAS de
+     * RegistroMedicamentoActivity, para que las alarmas
+     * programadas correspondan exactamente con las tomas
+     * ya insertadas en SQLite.
+     */
+
+    private static final int DIAS_VENTANA_ALARMAS = 14;
+
+
+    // =====================================================
     // COMPROBAR SI PODEMOS PROGRAMAR ALARMAS EXACTAS
     // =====================================================
 
@@ -89,6 +110,18 @@ public class GestorAlarmas {
     // PROGRAMAR TODAS LAS ALARMAS DE UN MEDICAMENTO
     // =====================================================
 
+    /*
+     * MODIFICADO (paso 3 del plan):
+     *
+     * Antes se calculaban TODAS las tomas del tratamiento
+     * completo y se intentaba programar una alarma exacta
+     * por cada una (podían ser miles), superando el límite
+     * que Android impone por aplicación.
+     *
+     * Ahora solo calculamos y programamos las tomas dentro
+     * de una ventana de DIAS_VENTANA_ALARMAS días.
+     */
+
     public static Boolean programarAlarmas(
             Context context,
             Medicamento medicamento) {
@@ -109,7 +142,18 @@ public class GestorAlarmas {
 
 
         // =================================================
-        // OBTENER LAS TOMAS CALCULADAS
+        // CALCULAR LÍMITE SUPERIOR DE LA VENTANA
+        // =================================================
+
+        LocalDateTime limiteSuperior =
+                LocalDateTime.now()
+                        .plusDays(
+                                DIAS_VENTANA_ALARMAS
+                        );
+
+
+        // =================================================
+        // OBTENER LAS TOMAS CALCULADAS DENTRO DE LA VENTANA
         // =================================================
 
         ArrayList<LocalDateTime> tomas =
@@ -121,7 +165,9 @@ public class GestorAlarmas {
 
                         medicamento.getFrecuencia(),
 
-                        medicamento.getDiasTratamiento()
+                        medicamento.getDiasTratamiento(),
+
+                        limiteSuperior
                 );
 
 
@@ -302,6 +348,31 @@ public class GestorAlarmas {
     // CANCELAR TODAS LAS ALARMAS DE UN MEDICAMENTO
     // =====================================================
 
+    /*
+     * NOTA IMPORTANTE SOBRE ESTE MÉTODO:
+     *
+     * Sigue usando calcularTomas() SIN límite (todas las
+     * tomas del tratamiento completo). Esto es intencional
+     * por ahora: cancelarAlarmas() necesita generar los
+     * MISMOS índices "i" que se usaron al programar, para
+     * reconstruir los mismos idAlarma (medicamento.getId() * 1000 + i)
+     * y poder cancelar el PendingIntent correcto con
+     * FLAG_NO_CREATE.
+     *
+     * Como solo cancela PendingIntents que ya existen
+     * (FLAG_NO_CREATE no crea nada nuevo), recorrer de más
+     * no inserta nada en SQLite ni programa nada: simplemente
+     * no encuentra pendingIntent para los índices que nunca
+     * se llegaron a programar, y el "if (pendingIntent != null)"
+     * los ignora. No causa el mismo problema de memoria que
+     * programarAlarmas() tenía, pero sí es un recorrido más
+     * largo de lo necesario para tratamientos muy extensos.
+     *
+     * Si en el futuro se quiere optimizar también esto,
+     * habría que guardar en SQLite qué índices "i" se llegaron
+     * a programar realmente, en vez de recalcularlos.
+     */
+
     public static void cancelarAlarmas(
             Context context,
             Medicamento medicamento) {
@@ -445,4 +516,3 @@ public class GestorAlarmas {
         }
     }
 }
-
